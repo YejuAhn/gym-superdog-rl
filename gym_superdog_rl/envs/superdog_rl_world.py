@@ -3,18 +3,16 @@ import random
 import numpy as np
 import os
 
-class World:
-    def __init__(self, world_size = (30, 30), screen_size = (500, 500), num_portals = 0):
+class WorldView:
+    def __init__(self, world_size = (30, 30), screen_size = (500, 500)):
         #pygame configurations
         pygame.init()
         pygame.display.set_caption("Adventure of Superdog")
         self.clock = pygame.time.Clock()
         self.__game_over = False
-        # self.__enable_render = enable_render
-        self.__world = World(world_size = world_size, num_portals = num_portals)
+        self.__world = World(world_size = world_size)
         self.world_size = self.__world.world_size
         self.screen = pygame.display.set_mode(screen_size)
-
         #starting point
         self.__entrance = np.zeros(2, dtype=int)
 
@@ -22,30 +20,27 @@ class World:
         self.__goal = np.array(self.world_size) - np.array((1, 1))
 
         #agent 
-        self.__dog = self.entrance
+        self.__dog = self.__entrance
 
         #background
-        self.background = pygame.transform.scale(pygame.image.load('/backgrounds/bg_grasslands.png'), screen_size)
+        self.background = pygame.transform.scale(pygame.image.load('/Users/jessicaahn/Desktop/bg_grasslands.png'), screen_size)
 
         # show world
         self.__draw_world()
 
-        # show portals
-        self.__draw_portals()
+        # # show dog
+        # self.__draw_dog()
 
-        # show dog
-        self.__draw_dog()
+        # # show entrance
+        # self.__draw_entrance()
 
-        # show entrance
-        self.__draw_entrance()
-
-        # show end goal
-        self.__draw_goal()
+        # # show end goal
+        # self.__draw_goal()
 
 
     def update(self, mode="human"):
         try:
-            img_output = self.__view_update(mode)
+            img_output = self.view_update(mode)
             self.update_controller()
         except Exception as e:
             self.__game_over = True
@@ -53,6 +48,15 @@ class World:
             raise e
         else:
             return img_output
+
+    def quit_game(self):
+        try:
+            self.__game_over = True
+            if self.__enable_render is True:
+                pygame.display.quit()
+            pygame.quit()
+        except Exception:
+            pass
 
 
     def move_dog(self, dir):
@@ -88,10 +92,9 @@ class World:
     def view_update(self, mode="human"):
         if not self.__game_over:
             # update the robot's position
-            self.__draw_entrance()
-            self.__draw_goal()
-            self.__draw_portals()
-            self.__draw_dog()
+            # self.__draw_entrance()
+            # self.__draw_goal()
+            # self.__draw_dog()
 
             # update the screen
             self.screen.blit(self.background, (0, 0))
@@ -106,11 +109,19 @@ class World:
         #draw blocks
         pass
 
+class World: #Tile Representation
+
+    def __init__(self, world_size =  (30, 30)):
+        self.world_size = world_size
+
+
+
+
 
 
 
 if __name__ == "__main__":
-    world = World(world_size = (30, 30), screen_size= (500, 500))
+    world = WorldView(world_size = (30, 30), screen_size = (500, 500))
     world.update()
 
     input("Enter any key to quit.")
