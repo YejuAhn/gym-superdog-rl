@@ -1,7 +1,7 @@
 Environments:
     - There are 7 environments available, with the following syntax:
         superdog_rl-<world_number>-tiles-v0
-        - world_number is a number between 1 and 8
+        - world_number is a number between 1 and 7
 
 Tiles:
       - Environment with "Tiles" in their name will return a 16x13 array
