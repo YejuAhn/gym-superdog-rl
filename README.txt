@@ -15,7 +15,7 @@ Tiles:
 
 
 Actions:
-    - The NES controller is composed of 6 buttons (Up, Left, Down, Right, A, B)
+    - 4 Action Spaces (Up, Left, Right, Space)
     - The step function expects an array of 0 and 1 that represents
 
 
