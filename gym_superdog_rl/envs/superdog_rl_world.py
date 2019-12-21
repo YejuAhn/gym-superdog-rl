@@ -3,28 +3,40 @@ import random
 import numpy as np
 import os
 
-class WorldView:
-    def __init__(self, world_size = (30, 30), screen_size = (500, 500)):
+
+#WorldView class
+class WorldView: 
+    def __init__(self, world_name = "Adventure of Superdog", tile_size = (16, 13), screen_size = (800, 650), enable_render = True): #width x height
         #pygame configurations
         pygame.init()
-        pygame.display.set_caption("Adventure of Superdog")
+        pygame.display.set_caption(world_name)
         self.clock = pygame.time.Clock()
+
+        #superdog initialization
         self.__game_over = False
-        self.__world = World(world_size = world_size)
-        self.world_size = self.__world.world_size
-        self.screen = pygame.display.set_mode(screen_size)
-        #starting point
-        self.__entrance = np.zeros(2, dtype=int)
+        self.__mode = 'human' #'algo' or 'human'
+        self.screen_size = screen_size
+        self.__world = World(tile_size = tile_size, screen_size = screen_size)
 
-        #set goal
-        self.__goal = np.array(self.world_size) - np.array((1, 1))
+        #tile representation
+        self.tile_height = 13 
+        self.tile_width = 16
+        self.tiles = np.zeros(shape=(self.tile_height, self.tile_width), dtype=np.uint8)
+        self.tile_size = tile_size
 
-        #agent 
-        self.__dog = self.__entrance
-
-        #background
+        #initialize window
+        self.screen = pygame.display.set_mode(screen_size) 
         self.background = pygame.transform.scale(pygame.image.load('/Users/jessicaahn/Desktop/bg_grasslands.png'), screen_size)
 
+
+
+        # #starting point
+        # self.__entrance = np.zeros(2, dtype=int)
+
+        # #agent 
+        # self.__dog = self.__entrance
+
+        
         # show world
         self.__draw_world()
 
@@ -89,7 +101,7 @@ class WorldView:
                     self.quit_game()
 
 
-    def view_update(self, mode="human"):
+    def view_update(self, mode= "human"):
         if not self.__game_over:
             # update the robot's position
             # self.__draw_entrance()
@@ -102,7 +114,7 @@ class WorldView:
             if mode == "human":
                 pygame.display.flip()
 
-            return np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface())))
+            return np.flipud(np.rot90(pygame.surfarray.array3d(pygame.display.get_surface()))) #REVISIT 
 
 
     def __draw_world(self):
@@ -110,9 +122,18 @@ class WorldView:
         pass
 
 class World: #Tile Representation
+    def __init__(self, tile_size = (16, 13), screen_size = (800, 650)):
+        self.tile_size = tile_size
+        self.screen_size = screen_size
+        self._generate_world()
 
-    def __init__(self, world_size =  (30, 30)):
-        self.world_size = world_size
+    def _generate_world(self): 
+        pass #TODO 
+        #create boxes 
+
+
+
+
 
 
 
@@ -121,7 +142,7 @@ class World: #Tile Representation
 
 
 if __name__ == "__main__":
-    world = WorldView(world_size = (30, 30), screen_size = (500, 500))
+    world = WorldView()
     world.update()
 
     input("Enter any key to quit.")
