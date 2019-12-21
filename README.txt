@@ -26,7 +26,7 @@ Initiating the environment:
         env.reset()
 
 Gameplay:
-    - The game will automatically close if Superdog dies or shortly after the flagpole is touched
+    - The game will automatically close if Superdog dies or shortly after the goal is touched
     - The game will only accept inputs after the timer has started to decrease (i.e. it will automatically move
       through the menus and animations)
     - The total reward is the distance on the x axis.
